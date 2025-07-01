@@ -2,7 +2,7 @@
 
 ![NestJS](https://img.shields.io/badge/-NestJS-e0234e?style=flat\&logo=nestjs\&logoColor=white) ![Prisma](https://img.shields.io/badge/-Prisma-2D3748?style=flat\&logo=prisma\&logoColor=white) ![MySQL](https://img.shields.io/badge/-MySQL-00758f?style=flat\&logo=mysql\&logoColor=white)
 
-API mínima para gestionar **usuarios** y sus **mensajes** usando NestJS, Prisma ORM y MySQL. Diseñada para la prueba técnica de 90 min.
+API mínima para gestionar **usuarios** y sus **mensajes** usando NestJS, Prisma ORM y MySQL.
 
 ---
 
