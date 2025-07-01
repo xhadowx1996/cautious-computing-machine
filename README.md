@@ -1,98 +1,194 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🧪 Prueba Técnica Backend – NestJS + Prisma
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![NestJS](https://img.shields.io/badge/-NestJS-e0234e?style=flat\&logo=nestjs\&logoColor=white) ![Prisma](https://img.shields.io/badge/-Prisma-2D3748?style=flat\&logo=prisma\&logoColor=white) ![MySQL](https://img.shields.io/badge/-MySQL-00758f?style=flat\&logo=mysql\&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+API mínima para gestionar **usuarios** y sus **mensajes** usando NestJS, Prisma ORM y MySQL. Diseñada para la prueba técnica de 90 min.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📂 Estructura del proyecto
 
-## Project setup
-
-```bash
-$ npm install
+```
+chat-api/
+├─ src/
+│  ├─ app.module.ts
+│  ├─ main.ts
+│  ├─ prisma/
+│  │  └─ prisma.service.ts
+│  ├─ users/
+│  │  ├─ users.controller.ts
+│  │  ├─ users.module.ts
+│  │  ├─ users.service.ts
+│  │  └─ dto/create-user.dto.ts
+│  └─ messages/
+│     ├─ messages.controller.ts
+│     ├─ messages.module.ts
+│     ├─ messages.service.ts
+│     └─ dto/create-message.dto.ts
+├─ prisma/
+│  ├─ schema.prisma
+│  └─ migrations/
+├─ .env.example
+├─ package.json
+└─ README.md  ← (este archivo)
 ```
 
-## Compile and run the project
+---
+
+## 🛠️ Stack
+
+| Capa         | Tecnología             |
+| ------------ | ---------------------- |
+| Runtime      | Node 20 + TypeScript   |
+| Framework    | **NestJS** 10          |
+| ORM          | **Prisma Client** 5    |
+| DB           | **MySQL** 8            |
+| Validaciones | class‑validator + DTOs |
+
+---
+
+## 🚀 Inicio rápido (local)
 
 ```bash
-# development
-$ npm run start
+# 1. Clonar repositorio
+git clone https://github.com/xhadowx1996/cautious-computing-machine.git
+cd cautious-computing-machine
 
-# watch mode
-$ npm run start:dev
+# 2. Instalar dependencias
+npm install
 
-# production mode
-$ npm run start:prod
+# 3. Copiar variables de entorno
+cp .env.example .env
+# Editar .env según tus credenciales MySQL
+
+# 4. Crear DB y aplicar migraciones
+npx prisma migrate dev --name init
+
+# 5. Generar el cliente Prisma (por si acaso)
+npx prisma generate
+
+# 6. Levantar Nest en modo watch
+npm run start:dev
 ```
 
-## Run tests
+> **Nota:** Si usas el contenedor MySQL propuesto más abajo, no necesitas instalar MySQL nativo.
+
+---
+
+## 🧩 Variables de entorno
+
+`.env.example` incluído:
+
+```ini
+# Cadena de conexión MySQL
+DATABASE_URL="mysql://johndoe:randompassword@127.0.0.1:3306/mydb"
+```
+
+Copia → `.env` y ajusta usuario, password o puerto si cambias el contenedor.
+
+---
+
+## 🐳 MySQL en Docker (opcional)
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker run -d \
+  --name mysql-local \
+  -p 127.0.0.1:3306:3306 \
+  -e MYSQL_ROOT_PASSWORD=danieldev123 \
+  -e MYSQL_DATABASE=mydb \
+  -e MYSQL_USER=johndoe \
+  -e MYSQL_PASSWORD=randompassword \
+  -v ./mysql-data:/var/lib/mysql \
+  mysql:8.4
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📚 Modelo de datos (Prisma)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```prisma
+model User {
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String    @unique
+  messages Message[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+}
+```
+
+---
+
+## 🌐 Endpoints
+
+| Método | Ruta                  | Descripción                  | DTO / Validaciones                                              |
+| ------ | --------------------- | ---------------------------- | --------------------------------------------------------------- |
+| POST   | `/users`              | Crea usuario                 | `CreateUserDto` → `name` requerido, `email` con formato válido. |
+| POST   | `/messages`           | Crea mensaje para un usuario | `CreateMessageDto` → `content` no vacío, `userId` entero.       |
+| GET    | `/users/:id/messages` | Lista mensajes del usuario   | —                                                               |
+
+### Ejemplos cURL
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Crear usuario
+curl -X POST http://localhost:3000/users \
+     -H "Content-Type: application/json" \
+     -d '{"name":"Alice","email":"alice@example.com"}'
+
+# Crear mensaje
+curl -X POST http://localhost:3000/messages \
+     -H "Content-Type: application/json" \
+     -d '{"content":"¡Hola mundo!","userId":1}'
+
+# Listar mensajes
+curl http://localhost:3000/users/1/messages
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🧪 Validaciones
 
-Check out a few resources that may come in handy when working with NestJS:
+* `@IsNotEmpty()` → `name`, `content`
+* `@IsEmail()` → `email`
+* `@IsInt()` → `userId`
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Config global: `app.useGlobalPipes(new ValidationPipe({ whitelist:true, forbidNonWhitelisted:true }))`
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🗄️ Scripts NPM
 
-## Stay in touch
+| Script                    | Acción                                            |
+| ------------------------- | ------------------------------------------------- |
+| `npm run start`           | Nest en modo producción                           |
+| `npm run start:dev`       | Nest en watch + reload                            |
+| `npm run build`           | Compila a `dist/`                                 |
+| `npm run prisma:generate` | Regenera cliente Prisma                           |
+| `postinstall`             | Ejecuta `prisma generate` tras cada `npm install` |
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## 🔒 Buenas prácticas
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+* Carpeta `prisma/` versionada; migraciones reproducibles.
+* `.env` ignorado en Git; se entrega `.env.example`.
+* `PrismaService` para **singleton** de conexión.
+* DTOs y **class-validator** para sanitizar entrada.
+* Controladores delgados, lógica en Services.
+* `gitignore`: `node_modules/`, `.env`, `mysql-data/`.
+
+---
+
+## 📄 Licencia
+
+[MIT](LICENSE) – libre para uso educativo y pruebas técnicas.
+
+---
+
+> **Autor:** Daniel Felipe Moya Pinto · 2025
